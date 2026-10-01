@@ -67,7 +67,7 @@ void initBuffering()
 #ifdef VITA
 	SceCtrlData pad;
 	sceCtrlPeekBufferPositive(0, &pad, 1);
-	G_keys = pad.buttons;
+	G_keys = (const t_key *)(uintptr_t)pad.buttons;
 #else
 	G_keys = SDL_GetKeyboardState(NULL);
 #endif
@@ -157,7 +157,7 @@ void updateKeys()
 #ifdef VITA
 	SceCtrlData pad;
 	sceCtrlPeekBufferPositive(0, &pad, 1);
-	G_keys = pad.buttons;
+	G_keys = (const t_key *)(uintptr_t)pad.buttons;
 #else
 	G_keys = SDL_GetKeyboardState(NULL);
 #endif
@@ -766,7 +766,7 @@ void wait_no_key_pressed(t_key k)
 	SceCtrlData pad;
 	while (G_keys) {
 		sceCtrlPeekBufferPositive(0, &pad, 1);
-		G_keys = pad.buttons;
+		G_keys = (const t_key *)(uintptr_t)pad.buttons;
 	}
 #else
 	while (G_keys[k])
